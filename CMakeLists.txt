@@ -8,7 +8,11 @@ add_executable(PPP main.cpp
                    Object.h 
                    Object.cpp 
                    World.h 
-                   World.cpp)
+                   World.cpp
+                   Player.h
+                   Player.cpp
+                   GameProcess.h
+                   GameProcess.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
