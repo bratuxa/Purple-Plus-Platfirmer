@@ -1,6 +1,14 @@
-#include "GameProcess.h"
+#include <iostream>
+#include <vector>
+#include <memory>
+#include "World.h"
 
 
 int main(int, char**) {
-    GameProcess::getGameProcess()->test();
+    World world = World(
+    "|             |\n" 
+               "|+            |\n"
+                "|-------------|");
+
+    std::cout << world;
 }

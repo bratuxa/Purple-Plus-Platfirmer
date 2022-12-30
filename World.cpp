@@ -23,7 +23,6 @@ World::World(const std::string& WORLD_PLAN) {
     }
 }
 
-
 std::ostream& operator<< (std::ostream &OUT, const World &WORLD)
 {
     for (auto coordsY : WORLD.coords ) {
@@ -34,12 +33,3 @@ std::ostream& operator<< (std::ostream &OUT, const World &WORLD)
     }
     return OUT;
 }       
-
-
-std::pair<int, int> World::findObject(const char charObject){
-    for(int y{0}; y < coords.size(); ++y)
-        for(int x{0}; x < coords.at(y).size(); ++x){
-            if(coords.at(y).at(x)->getLook() == charObject) return std::pair<int, int>{y,x};
-        }
-    return std::pair<int, int> {-1,-1};
-}
