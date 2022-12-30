@@ -1,5 +1,6 @@
 #include "World.h"
 #include <memory>
+#include <utility>
 
 World::World(const std::string& WORLD_PLAN) {
     coords.push_back(std::vector<std::shared_ptr<Object>>());
@@ -33,3 +34,13 @@ std::ostream& operator<< (std::ostream &OUT, const World &WORLD)
     }
     return OUT;
 }       
+
+std::pair<int, int> World::findObject(const char lookObject) const{
+    for (int y{0}; y < coords.size(); ++y) {
+        for (int x{0}; x < coords.at(y).size(); ++x) {
+            if(coords.at(y).at(x)->getLook() == lookObject) return std::pair<int, int> (y,x);
+        }
+    }
+
+    return std::pair<int, int> (0,0);
+}
