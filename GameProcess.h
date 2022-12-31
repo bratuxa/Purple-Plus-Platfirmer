@@ -17,16 +17,19 @@ class GameProcess{
     static std::shared_ptr<GameProcess> gameProcess;
     friend Player;
 
-    GameProcess() : theWorld("|+            |\n" 
+    GameProcess() : theWorld(
+    "|-------------|\n"
+    "|+            |\n" 
     "|             |\n"
     "|             |\n"
+    "|      -      |\n"
     "|-            |\n"
     "|             |\n"
-    "|             |\n"
+    "|          -  |\n"
     "|  -          |\n"
     "|             |\n"
-                                         "|             |\n"
-                                        "|-------------|"), 
+    "|             |\n"
+    "|-------------|"), 
     thePlayer()
     {
         std::pair<int, int> pait = theWorld.findObject('+');
