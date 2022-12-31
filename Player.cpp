@@ -1,3 +1,4 @@
 #include "Player.h"
 
-Player::Player(const int Y, const int X) : x(X), y(Y){}
+int Player::frameNum = 0;
+const std::vector<char> Player::ANIMATION{'x','+'};

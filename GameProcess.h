@@ -1,5 +1,4 @@
 #include "World.h"
-#include "Player.h"
 #include <memory>
 #include <minwindef.h>
 #include <utility>
@@ -13,9 +12,8 @@
 
 class GameProcess{
     World theWorld;
-    Player thePlayer;
+    std::shared_ptr<Player> thePlayer;
     static std::shared_ptr<GameProcess> gameProcess;
-    friend Player;
 
     GameProcess() : theWorld(
     "|-------------|\n"
@@ -30,10 +28,9 @@ class GameProcess{
     "|             |\n"
     "|             |\n"
     "|-------------|"), 
-    thePlayer()
+    thePlayer{std::dynamic_pointer_cast<Player>(theWorld.getObjectPtr(theWorld.findObject('+')))}
     {
-        std::pair<int, int> pait = theWorld.findObject('+');
-        thePlayer = Player(pait.first,pait.second);
+        thePlayer->setPlayer(theWorld.findObject('+'));
     }
 
     inline void clear(){
@@ -51,6 +48,7 @@ class GameProcess{
         sleep(TIME);
         #endif
     }
+
 
     inline void print(){ clear(); std::cout << theWorld; }
     

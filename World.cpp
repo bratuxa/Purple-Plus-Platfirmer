@@ -13,11 +13,11 @@ World::World(const std::string& WORLD_PLAN) {
             case '\n': {
                 coords.push_back(std::vector<std::shared_ptr<Object>>()); ++currentFloor;} break;
             case '+': 
-                coords.at(currentFloor).push_back(std::make_shared<Object>('+',true)); break;
+                coords.at(currentFloor).push_back(std::make_shared<Player>('+')); break;
             case '-': 
-                coords.at(currentFloor).push_back(std::make_shared<Object>('-', true)); break;
+                coords.at(currentFloor).push_back(std::make_shared<Object>('-')); break;
             case '|': 
-                coords.at(currentFloor).push_back(std::make_shared<Object>('|', true)); break;
+                coords.at(currentFloor).push_back(std::make_shared<Object>('|')); break;
             default: 
                 coords.at(currentFloor).push_back(std::make_shared<Object>());
         };
