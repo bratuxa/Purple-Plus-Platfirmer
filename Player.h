@@ -11,6 +11,7 @@ class Player : public Object{
     static const int JUMP_HEIGHT = 3;
     
     Player(const char LOOK = ' ') : Object(LOOK), x(0),y(0){}
+    Player(Object& obj) : Object(obj.getLook()), x(0),y(0){}
 
     inline std::pair<int, int> getPlayer(){ return std::pair<int, int>(y,x);}
     void nextFrameAnimation(){

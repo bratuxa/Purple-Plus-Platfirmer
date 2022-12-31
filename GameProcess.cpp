@@ -1,4 +1,5 @@
 #include "GameProcess.h"
+#include <memory>
 #include <synchapi.h>
 #include <utility>
 
@@ -14,7 +15,8 @@ void GameProcess::playerMove(const int MOVE_Y, const int MOVE_X){
     int targetY = playerCoords.first + MOVE_Y, targetX = playerCoords.second + MOVE_X;
     if(theWorld.getObject(targetY, targetX).getLook() == ' '){
         std::swap(theWorld.getObject(playerCoords.first, playerCoords.second), theWorld.getObject(targetY, targetX));
-        thePlayer = std::static_pointer_cast<Player>(theWorld.getObjectPtr(targetY, targetX));
+        thePlayer = std::make_shared<Player>(*std::dynamic_pointer_cast<Object>(theWorld.getObjectPtr(targetY, targetX)));
+        theWorld.getObjectPtr(targetY,targetX) = std::dynamic_pointer_cast<Object>(thePlayer);
         thePlayer->setPlayer(targetY,targetX);
     }
 }
