@@ -1,6 +1,7 @@
 #include "World.h"
 #include <memory>
 #include <minwindef.h>
+#include <string>
 #include <utility>
 #include "conio.h"
 
@@ -14,23 +15,32 @@ class GameProcess{
     World theWorld;
     std::shared_ptr<Player> thePlayer;
     static std::shared_ptr<GameProcess> gameProcess;
+    int moneyCounter;
+    bool isGameEnd;
+    
+    inline bool endGame(const std::string& STR){
+        clear();
+        std::cout << STR << " Your score: "<< moneyCounter << std::endl;
+        return true;
+    }
 
     GameProcess() : theWorld(
     "|-------------|\n"
     "|+            |\n" 
     "|             |\n"
+    "|      $      |\n"
+    "|     ---     |\n"
+    "|---          |\n"
+    "|          $  |\n"
+    "|         --- |\n"
+    "| ---         |\n"
     "|             |\n"
-    "|      -      |\n"
-    "|-            |\n"
-    "|             |\n"
-    "|          -  |\n"
-    "|  -          |\n"
-    "|             |\n"
-    "|             |\n"
-    "|-------------|"), 
-    thePlayer{std::dynamic_pointer_cast<Player>(theWorld.getObjectPtr(theWorld.findObject('+')))}
+    "|F        $   |\n"
+    "|-----===--^^^|"), 
+    thePlayer{std::dynamic_pointer_cast<Player>(theWorld.getObjectPtr(theWorld.findObject('+')))}, 
+    isGameEnd{false}, moneyCounter(0)
     {
-        thePlayer->setPlayer(theWorld.findObject('+'));
+        thePlayer->setObject(theWorld.findObject('+'));
     }
 
     inline void clear(){

@@ -6,20 +6,13 @@ World::World(const std::string& WORLD_PLAN) {
     coords.push_back(std::vector<std::shared_ptr<Object>>());
     int currentFloor = 0;
     for(char lookObject: WORLD_PLAN){
-        switch (lookObject) {
-            
-            case ' ' : 
-                coords.at(currentFloor).push_back(std::make_shared<Object>());  break;
+        switch (lookObject) {       
             case '\n': {
                 coords.push_back(std::vector<std::shared_ptr<Object>>()); ++currentFloor;} break;
             case '+': 
                 coords.at(currentFloor).push_back(std::make_shared<Player>('+')); break;
-            case '-': 
-                coords.at(currentFloor).push_back(std::make_shared<Object>('-')); break;
-            case '|': 
-                coords.at(currentFloor).push_back(std::make_shared<Object>('|')); break;
             default: 
-                coords.at(currentFloor).push_back(std::make_shared<Object>());
+                coords.at(currentFloor).push_back(std::make_shared<Object>(lookObject));
         };
     }
 }
