@@ -64,6 +64,10 @@ void GameProcess::gameLogic(){
             switch (theWorld.getObject(thePlayer->getObject().first + 1, thePlayer->getObject().second).getLook()) {
                 case '^': case '@':  isGameEnd = endGame("You are lose."); break;
                 case 'F': isGameEnd = endGame("You are win!!!");
+                case '$':{
+                    theWorld.getObjectPtr(thePlayer->getObject().first + 1, thePlayer->getObject().second) = std::make_shared<Object>(' ');
+                    ++moneyCounter;
+                }
                 case ' ': {
                     if(!inertiaForceY && !isGameEnd){
                         playerMove(1, 0);
