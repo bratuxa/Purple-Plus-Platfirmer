@@ -1,6 +1,6 @@
 #include <iostream>
 #include <utility>
-#include "Object.h"
+#include "MovebleObject.h"
 
 class Player : public MovebleObject{
     
@@ -12,7 +12,6 @@ class Player : public MovebleObject{
     Player(const char LOOK = ' ') : MovebleObject(LOOK){}
     Player(Object& obj) : MovebleObject(obj.getLook()){}
 
-    inline std::pair<int, int> getPlayer(){ return std::pair<int, int>(y,x);}
     void nextFrameAnimation(){
         if(frameNum < 0 || frameNum > ANIMATION.size() - 1) frameNum = 0;
         look = ANIMATION[frameNum++];

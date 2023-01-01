@@ -11,7 +11,7 @@ std::shared_ptr<GameProcess> GameProcess::getGameProcess(){
 }
 
 void GameProcess::playerMove(const int MOVE_Y, const int MOVE_X){
-    std::pair<int, int> playerCoords = thePlayer->getPlayer();
+    std::pair<int, int> playerCoords = thePlayer->getObject();
     int targetY = playerCoords.first + MOVE_Y, targetX = playerCoords.second + MOVE_X;
     
     switch (theWorld.getObject(targetY, targetX).getLook()) {
@@ -36,14 +36,16 @@ void GameProcess::playerMove(const int MOVE_Y, const int MOVE_X){
 void GameProcess::gameLogic(){
     int inertiaForceY{0};
     bool lookAnimationCounter = true;
+    int timer = 0;
     while (!isGameEnd) {  
+        if(timer++ > 3) timer = 0;
         print();
         if(kbhit()) {  
             switch (getch()) {
                 case 'd': case 77 : { thePlayer->nextFrameAnimation(); playerMove(0, 1);  } break;       // d, стрелка вправо
                 case 'a': case 75 : { thePlayer->nextFrameAnimation(); playerMove(0, -1); } break;       // a, стрелка влево
                 case 32 : case 'w': case 72: {                                                                          // пробел, w, стрелка вверх
-                    if(theWorld.getObject(thePlayer->getPlayer().first + 1, thePlayer->getPlayer().second).getLook() != ' '){
+                    if(theWorld.getObject(thePlayer->getObject().first + 1, thePlayer->getObject().second).getLook() != ' '){
                         playerMove(-1, 0);
                         inertiaForceY = 5;
                     }
@@ -55,15 +57,18 @@ void GameProcess::gameLogic(){
             if(inertiaForceY > 3) playerMove(-1, 0);
             --inertiaForceY;
         }  
-        switch (theWorld.getObject(thePlayer->getPlayer().first + 1, thePlayer->getPlayer().second).getLook()) {
-            case '^': isGameEnd = endGame("You are lose."); break;
+        switch (theWorld.getObject(thePlayer->getObject().first + 1, thePlayer->getObject().second).getLook()) {
+            case '^': case '@':  isGameEnd = endGame("You are lose."); break;
+            case 'F': isGameEnd = endGame("You are win!!!");
             case ' ': {
                 if(!inertiaForceY && !isGameEnd){
                     sleep(200);
                     playerMove(1, 0);
-                    if(theWorld.getObjectPtr(thePlayer->getPlayer().first + 1, thePlayer->getPlayer().second)->getLook() == '=') inertiaForceY = 8;
+                    if(theWorld.getObjectPtr(thePlayer->getObject().first + 1, thePlayer->getObject().second)->getLook() == '=') inertiaForceY = 8;
+                    
                 }
             }
         }
+        if(!isGameEnd && timer == 3) moveObjects();
     }
 }

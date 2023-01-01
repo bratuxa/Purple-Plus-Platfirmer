@@ -13,6 +13,8 @@ add_executable(PPP main.cpp
                    Player.cpp
                    GameProcess.h
                    GameProcess.cpp
+                   MovebleObject.h
+                   MovebleObject.cpp
                 )
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

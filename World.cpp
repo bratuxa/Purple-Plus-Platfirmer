@@ -11,6 +11,13 @@ World::World(const std::string& WORLD_PLAN) {
                 coords.push_back(std::vector<std::shared_ptr<Object>>()); ++currentFloor;} break;
             case '+': 
                 coords.at(currentFloor).push_back(std::make_shared<Player>('+')); break;
+            case '@':
+            {
+                auto temp = std::make_shared<MovebleObject>('@', currentFloor, coords.size());
+                coords.at(currentFloor).push_back(temp);
+                objectsMoveble.push_back(std::pair<std::shared_ptr<MovebleObject>, char>(temp, 'r')); 
+            }; 
+            break;
             default: 
                 coords.at(currentFloor).push_back(std::make_shared<Object>(lookObject));
         };
