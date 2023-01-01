@@ -26,6 +26,9 @@ void GameProcess::playerMove(const int MOVE_Y, const int MOVE_X){
             thePlayer->setObject(targetY,targetX);    
         } 
         break; 
+        case '@':  
+            isGameEnd = endGame("You are lose."); 
+        break;
         case 'F':
             isGameEnd = endGame("You are win!!!");
         break;

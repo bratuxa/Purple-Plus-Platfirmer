@@ -21,6 +21,7 @@ class GameProcess{
     inline bool endGame(const std::string& STR){
         clear();
         std::cout << STR << " Your score: "<< moneyCounter << std::endl;
+        getch();
         return true;
     }
 
