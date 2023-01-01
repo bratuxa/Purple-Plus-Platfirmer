@@ -27,14 +27,14 @@ class GameProcess{
     GameProcess() : theWorld(
     "|-------------|\n"
     "|+            |\n" 
-    "|             |\n"
+    "|        @    |\n"
     "|      $      |\n"
-    "|     ---     |\n"
+    "| @   ---     |\n"
     "|---          |\n"
     "|          $  |\n"
     "|         --- |\n"
-    "| ---         |\n"
-    "|         @   |\n"
+    "| ---@        |\n"
+    "|           @ |\n"
     "|F        $   |\n"
     "|-----===--^^^|"), 
     thePlayer{std::dynamic_pointer_cast<Player>(theWorld.getObjectPtr(theWorld.findObject('+')))}, 
@@ -78,19 +78,28 @@ class GameProcess{
         for (std::pair<std::shared_ptr<MovebleObject>, char>& objectMoveble : theWorld.getObjectsMoveble()) {
             int objectCoorY = objectMoveble.first->getObject().first, objectCoorX = objectMoveble.first->getObject().second;
             int modX = 0, modY = 0;
-            if(theWorld.getObject(objectCoorY,objectCoorX + 1).getLook() == ' ' && objectMoveble.second == 'r') { modX = 1; }
-            else if(theWorld.getObject(objectCoorY,objectCoorX - 1).getLook() == ' ' && objectMoveble.second == 'l') modX = -1;
-            else if(theWorld.getObject(objectCoorY,objectCoorX - 1).getLook() == ' ' && objectMoveble.second == 'u') modY = -1;
-            else if(theWorld.getObject(objectCoorY,objectCoorX - 1).getLook() == ' ' && objectMoveble.second == 'd') modY = 1;
-            else if(objectMoveble.second == 'r') objectMoveble.second = 'l';
-            else if(objectMoveble.second == 'l') objectMoveble.second = 'r';
-            else if(objectMoveble.second == 'u') objectMoveble.second = 'd';
-            else if(objectMoveble.second == 'd') objectMoveble.second = 'u';
-            else continue;
-            std::swap(theWorld.getObject(objectCoorY , objectCoorX), theWorld.getObject(objectCoorY,objectCoorX + modX));
-            objectMoveble.first = std::make_shared<MovebleObject>(*std::dynamic_pointer_cast<Object>(theWorld.getObjectPtr(objectCoorY,objectCoorX + modX)));
-            theWorld.getObjectPtr(objectCoorY,objectCoorX + modX) = std::dynamic_pointer_cast<Object>(objectMoveble.first);
-            objectMoveble.first->setObject(objectCoorY,objectCoorX + modX);   
+            switch (objectMoveble.second) {
+                case 'r': {
+                    const char lookObject = theWorld.getObject(objectCoorY,objectCoorX + 1).getLook();
+                    if(lookObject == ' ') modX = 1;
+                    else if(lookObject == thePlayer->getLook()) isGameEnd = endGame("You are lose.");
+                    else objectMoveble.second = 'l';
+                } 
+                break;
+                case 'l': {
+                    const char lookObject = theWorld.getObject(objectCoorY,objectCoorX - 1).getLook();
+                    if(lookObject == ' ') modX = -1;
+                    else if(lookObject == thePlayer->getLook()) isGameEnd =endGame("You are lose.");
+                    else objectMoveble.second = 'r';
+                } 
+                break;
+            }
+            if(!isGameEnd){
+            std::swap(theWorld.getObject(objectCoorY , objectCoorX), theWorld.getObject(objectCoorY + modY,objectCoorX + modX));
+            objectMoveble.first = std::make_shared<MovebleObject>(*std::dynamic_pointer_cast<Object>(theWorld.getObjectPtr(objectCoorY + modY,objectCoorX + modX)));
+            theWorld.getObjectPtr(objectCoorY + modY,objectCoorX + modX) = std::dynamic_pointer_cast<Object>(objectMoveble.first);
+            objectMoveble.first->setObject(objectCoorY + modY,objectCoorX + modX); 
+            }
         }
     }
 };
